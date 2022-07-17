@@ -1,58 +1,66 @@
-const products=document.getElementsByClassName("products")[0];
+const products = document.getElementsByClassName("products")[0];
 console.log(products);
 
-const details=document.getElementsByClassName("product-details")[0];
+const details = document.getElementsByClassName("product-details")[0];
 console.log(details);
 
-
-let fetchData=async()=>{
-
-
-    
-   const data= await (await fetch("https://fakestoreapi.com/products?limit=7")).json();
-
-   console.log(data.length);
+const itemNumber = document.getElementById("itemNumber");
 
 
 
-const showData=data.map(item=>products.innerHTML+=`<img src=${item.image} id=${item.id}>`)
 
 
-const img=document.getElementsByTagName("img");
+
+itemNumber.addEventListener("change", e => {
+
+    const value = e.target.value;
+    console.log(value);
 
 
-const imgarr=Array.from(img);
+
+    let fetchData = async () => {
 
 
-imgarr.map(item=>{
-    item.addEventListener("click",e=>{
+        const data = await (await fetch(`https://fakestoreapi.com/products?limit=${value}`)).json();
 
-  
+        console.log(data.length);
 
-      detail(item.id);
-     
 
-    })
-    
+        const showData = data.map(item => products.innerHTML += `<img src=${item.image} id=${item.id}>`)
+
+
+        const img = document.getElementsByTagName("img");
+
+
+        const imgarr = Array.from(img);
+
+
+        imgarr.map(item => {
+            item.addEventListener("click", e => {
+
+                detail(item.id);
+
+            })
+
+        })
+
+    }
+
+    fetchData();
 })
 
 
 
 
-
-
-
-}
-fetchData();
-
-const detail=async(id)=>{
+const detail = async (id) => {
 
     console.log(id);
-    const data= await(await fetch(`https://fakestoreapi.com/products/${id}`)).json();
+    const data = await (await fetch(`https://fakestoreapi.com/products/${id}`)).json();
 
     console.log(`title=${data.title}`);
 
-    details.innerHTML+=`title=${data.title} <br> id=${data.id}`
+    details.innerHTML += `title=${data.title} <br> id=${data.id}`
 
 
 }
+
