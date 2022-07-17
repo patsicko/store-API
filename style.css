@@ -6,7 +6,7 @@
 body{
 
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: scroll;
     padding: 0;
    
 }
@@ -29,9 +29,10 @@ img{
     align-items: center;
     padding: 100px;
     justify-content: space-around;
+    overflow-x: scroll;
 }
 .product-details{
     border: 1px solid black;
     height: 200px;
-    color: red;
+    
 }

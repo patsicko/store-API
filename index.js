@@ -1,8 +1,6 @@
 const products = document.getElementsByClassName("products")[0];
-console.log(products);
 
 const details = document.getElementsByClassName("product-details")[0];
-console.log(details);
 
 const itemNumber = document.getElementById("itemNumber");
 
@@ -15,8 +13,7 @@ let fetchData = async (x) => {
 
     const data = await (await fetch(`https://fakestoreapi.com/products?limit=${x}`)).json();
 
-    console.log(data.length);
-
+   
     products.innerHTML="";
     const showData = data.map(item => products.innerHTML += `<img src=${item.image} id=${item.id}>`)
 
@@ -38,17 +35,38 @@ let fetchData = async (x) => {
 
 }
 
+
+
 document.addEventListener("DOMContentLoaded",e=>{
+
     fetchData(5);
-    
-})
+
+   
+      })
+
+const detail = async (id) => {
+
+    const data = await (await fetch(`https://fakestoreapi.com/products/${id}`)).json();
+
+
+    details.innerHTML += `title=${data.title} <br> id=${data.id}`
+
+
+}
+
+
+
+
+
+
+
 
 
 itemNumber.addEventListener("change", e => {
 
     const value = e.target.value;
-    console.log(value);
 
+    fetchData(value);
 
 
     // let fetchData = async () => {
@@ -79,21 +97,52 @@ itemNumber.addEventListener("change", e => {
 
     // }
 
-    fetchData(value);
+   
 })
 
 
 
+// select by categories
 
-const detail = async (id) => {
 
-    console.log(id);
-    const data = await (await fetch(`https://fakestoreapi.com/products/${id}`)).json();
 
-    console.log(`title=${data.title}`);
+const categories=document.getElementById("categories");
 
-    details.innerHTML += `title=${data.title} <br> id=${data.id}`
 
+categories.addEventListener("change",e=>{
+    const cat=e.target.value;
+console.log(cat);
+    loadProductsByCategory(cat);
+   
+})
+
+
+document.addEventListener("DOMContentLoaded",e=>{
+loadData();
+
+})
+
+
+const loadData=async()=>{
+const loaded=   await (await fetch("https://fakestoreapi.com/products/categories")).json();
+
+const categ=loaded.map(item=>{
+    console.log(item);
+    categories.innerHTML+=`<option value="${item}">${item}</option>`; 
+})
 
 }
 
+
+
+
+const loadProductsByCategory=async(cat)=>{
+   const product= await (await fetch(`https://fakestoreapi.com/products/category/${cat}`)).json();
+
+   
+   products.innerHTML="loading...";
+   products.innerHTML="";
+   product.map(item=>products.innerHTML+=`<img src=${item.image}  id=${item.id}>`)
+
+console.log(product);
+}
