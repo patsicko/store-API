@@ -9,6 +9,39 @@ const itemNumber = document.getElementById("itemNumber");
 
 
 
+let fetchData = async (x) => {
+
+    products.innerHTML="loading....";
+
+    const data = await (await fetch(`https://fakestoreapi.com/products?limit=${x}`)).json();
+
+    console.log(data.length);
+
+    products.innerHTML="";
+    const showData = data.map(item => products.innerHTML += `<img src=${item.image} id=${item.id}>`)
+
+
+    const img = document.getElementsByTagName("img");
+
+
+    const imgarr = Array.from(img);
+
+
+    imgarr.map(item => {
+        item.addEventListener("click", e => {
+
+            detail(item.id);
+
+        })
+
+    })
+
+}
+
+document.addEventListener("DOMContentLoaded",e=>{
+    fetchData(5);
+    
+})
 
 
 itemNumber.addEventListener("change", e => {
@@ -18,35 +51,35 @@ itemNumber.addEventListener("change", e => {
 
 
 
-    let fetchData = async () => {
+    // let fetchData = async () => {
 
 
-        const data = await (await fetch(`https://fakestoreapi.com/products?limit=${value}`)).json();
+    //     const data = await (await fetch(`https://fakestoreapi.com/products?limit=${value}`)).json();
 
-        console.log(data.length);
-
-
-        const showData = data.map(item => products.innerHTML += `<img src=${item.image} id=${item.id}>`)
+    //     console.log(data.length);
 
 
-        const img = document.getElementsByTagName("img");
+    //     const showData = data.map(item => products.innerHTML += `<img src=${item.image} id=${item.id}>`)
 
 
-        const imgarr = Array.from(img);
+    //     const img = document.getElementsByTagName("img");
 
 
-        imgarr.map(item => {
-            item.addEventListener("click", e => {
+    //     const imgarr = Array.from(img);
 
-                detail(item.id);
 
-            })
+    //     imgarr.map(item => {
+    //         item.addEventListener("click", e => {
 
-        })
+    //             detail(item.id);
 
-    }
+    //         })
 
-    fetchData();
+    //     })
+
+    // }
+
+    fetchData(value);
 })
 
 
